@@ -1,0 +1,128 @@
+/* CONATOC Net — light “glass” UI (readable on all tabs) */
+:root{
+  --bg1: #f7f9fc;
+  --bg2: #eef2f7;
+  --card: rgba(255,255,255,0.82);
+  --card2: rgba(255,255,255,0.92);
+  --border: rgba(17,24,39,0.10);
+  --text: rgba(17,24,39,0.92);
+  --muted: rgba(17,24,39,0.64);
+  --shadow: rgba(17,24,39,0.10);
+  --accent: rgba(43,108,176,1);
+}
+
+html, body { height: 100%; }
+body{
+  color: var(--text);
+  background:
+    radial-gradient(1100px 650px at 15% 10%, rgba(55,130,255,.18), transparent 60%),
+    radial-gradient(900px 520px at 85% 15%, rgba(255,120,200,.12), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  background-attachment: fixed;
+}
+
+/* Typography helpers */
+.small-muted{ color: var(--muted) !important; }
+.subtitle{ color: var(--muted); font-size: 15px; max-width: 60ch; line-height: 1.5; }
+
+a{ color: rgba(30, 64, 175, 1); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+
+/* Navbar */
+.navbar-glass{
+  background: rgba(255,255,255,0.72) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(17,24,39,0.10);
+  box-shadow: 0 10px 30px var(--shadow);
+}
+
+/* Glass cards */
+.glass{
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 45px var(--shadow);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+}
+.glass-soft{
+  background: rgba(255,255,255,0.70);
+  border: 1px solid rgba(17,24,39,0.09);
+  border-radius: 18px;
+  backdrop-filter: blur(10px);
+}
+
+/* Hero */
+.hero{
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(17,24,39,0.10);
+  box-shadow: 0 30px 80px rgba(17,24,39,0.18);
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.78), rgba(255,255,255,0.42));
+}
+.hero-content{ position: relative; z-index: 1; padding: 26px; }
+
+/* Buttons */
+.btn-glow{
+  border-radius: 14px !important;
+  border: 1px solid rgba(30,64,175,0.22) !important;
+  background: rgba(30,64,175,0.08) !important;
+  /* Make text readable on the light glass background */
+  color: rgba(17,24,39,0.92) !important;
+  font-weight: 800 !important;
+}
+.btn-glow:hover{
+  background: rgba(30,64,175,0.12) !important;
+  color: rgba(17,24,39,0.92) !important;
+}
+
+/* If a Bootstrap variant sets white text, force readable text color */
+.btn.btn-glow,
+.btn.btn-glow:active,
+.btn.btn-glow:focus,
+.btn.btn-glow:visited{
+  color: rgba(17,24,39,0.92) !important;
+}
+
+/* KPI chips */
+.kpi{
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(17,24,39,0.10);
+  box-shadow: 0 12px 28px var(--shadow);
+}
+
+/* Forms */
+.form-control, .Select-control, .dash-dropdown{
+  background: rgba(255,255,255,0.92) !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(17,24,39,0.14) !important;
+  border-radius: 14px !important;
+}
+.form-control:focus{
+  box-shadow: 0 0 0 0.2rem rgba(30,64,175,0.12) !important;
+}
+
+/* Tables */
+.table-glass{ border-radius: 18px; overflow: hidden; }
+
+/* Chat bubbles (if used) */
+.chat-bubble{
+  background: rgba(255,255,255,0.82);
+  border: 1px solid rgba(17,24,39,0.10);
+  border-radius: 16px;
+  padding: 10px 12px;
+}
+
+/* Smooth fade */
+.fade-in{ animation: fadeIn .35s ease-out both; }
+@keyframes fadeIn{
+  from{ opacity:0; transform: translateY(6px); }
+  to{ opacity:1; transform: translateY(0); }
+}
