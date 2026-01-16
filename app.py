@@ -1,7 +1,7 @@
 import os
 import base64
 from datetime import datetime
-from dateutil import tz
+from zoneinfo import ZoneInfo
 
 from flask import Flask, redirect, request, send_file, abort
 from flask_sqlalchemy import SQLAlchemy
@@ -13,7 +13,7 @@ import dash_bootstrap_components as dbc
 from werkzeug.security import generate_password_hash, check_password_hash
 from io import BytesIO
 
-APP_TZ = tz.gettz("America/Toronto")
+APP_TZ = ZoneInfo("America/Toronto")
 
 # -------------------------
 # Config
@@ -974,7 +974,8 @@ def do_register(_, name, affil, email, password, role, consent):
             email=email,
             name=name.strip(),
             affiliation=(affil.strip() if affil else None),
-            role=(role if role in ("patient","researcher") else "patient"),
+            # Allow doctor registrations (in addition to patient/researcher)
+            role=(role if role in ("patient","researcher","doctor") else "patient"),
             password_hash=generate_password_hash(password),
             is_active=True,
         )
@@ -1403,7 +1404,7 @@ def admin_actions(setrole_clicks, deact_clicks, selected, data, new_role):
             return "User not found.", "danger", True, no_update
 
         if trig == "btn-admin-setrole":
-            if new_role not in ("admin","researcher","patient"):
+            if new_role not in ("admin","researcher","doctor","patient"):
                 return "Invalid role.", "warning", True, no_update
             u.role = new_role
             db.session.commit()
@@ -1436,7 +1437,8 @@ if __name__ == "__main__":
     # dev server (Dash v3 uses app.run; older versions use run_server)
     host = "0.0.0.0"
     port = int(os.environ.get("PORT", "8050"))
-    debug = True
+    # Never force debug=True in production; enable only if DEBUG=1
+    debug = os.environ.get("DEBUG", "0") == "1"
     run_fn = getattr(app, "run", None)
     if callable(run_fn):
         run_fn(host=host, port=port, debug=debug)
